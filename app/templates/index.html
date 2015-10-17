@@ -10,21 +10,41 @@
     $(function(){
         $('.colpicker').colorpicker();
     });
+
+    $(function() {
+    $('#recolorBtn').click(function() {
+        formData = new FormData($('#recolorForm')[0]);
+        $.ajax({
+            url: '/recolor',
+            data: formData,
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(error) {
+                console.log(error);
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+    });
     </script>
   </head>
   <body>
       <h1>Recolor images</h1>
       <div class="container">
-        <form class="form-horizontal">
+        <form id="recolorForm" class="form-horizontal">
             <div class="form-group">
               <label class="control-label">Select Color</label>
               <div class="input-group colpicker">
-                <input type="text" value="#5367ce" class="form-control" />
+                <input type="text" value="#5367ce" name="color" class="form-control" />
                 <span class="input-group-addon"><i></i></span>
               </div>
               <label class="control-label">Select Images</label>
-              <input id="imageInput" type="file" class="file" data-allowed-file-extensions='["svg"]' multiple="true" data-show-upload="false">
-              <button class="btn btn-large btn-primary" type="submit">Recolor</button>
+              <input name="files" id="imageInput" type="file" class="file" data-allowed-file-extensions='["svg"]' multiple="true" data-show-upload="false">
+              <button id="recolorBtn" class="btn btn-large btn-primary" type="button">Recolor</button>
             </div>
         </form>
       </div>
