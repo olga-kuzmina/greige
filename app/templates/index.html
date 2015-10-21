@@ -2,16 +2,16 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link href="{{ url_for('static', filename='css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css" />
     <link href="{{ url_for('static', filename='css/bootstrap-colorpicker.min.css') }}" media="all" rel="stylesheet" type="text/css" />
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <link href="{{ url_for('static', filename='css/greige.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <title>Recolor images</title>
     <script>
-    $(function(){
-        $('.colpicker').colorpicker();
-    });
 
     $(function() {
+    $('.colpicker').colorpicker();
     $('#recolorBtn').click(function() {
         formData = new FormData($('#recolorForm')[0]);
         $.ajax({
@@ -29,25 +29,68 @@
             processData: false
         });
     });
-    });
+    $('#recolorForm')
+      .on('click', '.addButton', function() {
+          var $template = $('#colorTemplate'),
+              $clone = $template.clone().removeClass('hide').removeAttr('id').insertBefore($template)
+          $('.colpicker').colorpicker();
+      })
+
+      .on('click', '.removeButton', function() {
+          var $row = $(this).parents('.form-group')
+          $row.remove();
+      })
+      });
     </script>
   </head>
   <body>
       <h1>Recolor images</h1>
       <div class="container">
         <form id="recolorForm" class="form-horizontal">
-            <div class="form-group">
-              <label class="control-label">Email</label>
-              <input name="email" type="email" class="form-control">
-              <label class="control-label">Select Color</label>
-              <div class="input-group colpicker">
-                <input type="text" value="#5367ce" name="color" class="form-control" />
-                <span class="input-group-addon"><i></i></span>
-              </div>
-              <label class="control-label">Select Images</label>
-              <input name="files" id="imageInput" type="file" class="file" data-allowed-file-extensions='["svg"]' multiple="true" data-show-upload="false">
-              <button id="recolorBtn" class="btn btn-large btn-primary" type="button">Recolor</button>
+          <div class="form-group">
+            <label class="col-xs-3 control-label">Email</label>
+            <div class="col-xs-5">
+                <input name="email" type="email" class="form-control">
             </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-xs-3 control-label">Color</label>
+              <div class="col-xs-5">
+                <div class="input-group colpicker">
+                  <input type="text" value="#5367ce" name="color" class="form-control" />
+                  <span class="input-group-addon"><i></i></span>
+                </div>
+              </div>
+              <div class="col-xs-4">
+                  <button type="button" class="btn btn-default addButton"><i class="fa fa-plus"></i></button>
+              </div>
+          </div>
+
+          <div class="form-group hide" id="colorTemplate">
+              <div class="col-xs-offset-3 col-xs-5">
+                <div class="input-group colpicker">
+                  <input type="text" value="#5367ce" name="color" class="form-control" />
+                  <span class="input-group-addon"><i></i></span>
+                </div>
+              </div>
+              <div class="col-xs-4">
+                  <button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>
+              </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-xs-3 control-label">Images</label>
+            <div class="col-xs-5">
+                <input name="files" id="imageInput" type="file" class="file" data-allowed-file-extensions='["svg"]' multiple="true" data-show-upload="false">
+            </div>
+          </div>
+
+          <div class="form-group">
+              <div class="col-xs-5 col-xs-offset-3">
+                  <button id="recolorBtn" class="btn btn-large btn-primary" type="button">Recolor</button>
+              </div>
+          </div>
         </form>
       </div>
       <script type="text/javascript" src="{{ url_for('static', filename='js/fileinput.min.js') }}"></script>
