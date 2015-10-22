@@ -33,6 +33,7 @@
       .on('click', '.addButton', function() {
           var $template = $('#colorTemplate'),
               $clone = $template.clone().removeClass('hide').removeAttr('id').insertBefore($template)
+          $clone.find('input').attr("name", "color");
           $('.colpicker').colorpicker();
       })
 
@@ -72,7 +73,7 @@
           <div class="form-group hide" id="colorTemplate">
               <div class="col-xs-offset-3 col-xs-5">
                 <div class="input-group colpicker">
-                  <input type="text" value="#5367ce" name="color" class="form-control" />
+                  <input type="text" value="#5367ce" class="form-control" />
                   <span class="input-group-addon"><i></i></span>
                 </div>
               </div>
